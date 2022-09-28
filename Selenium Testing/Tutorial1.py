@@ -18,3 +18,4 @@ time.sleep(2)
 driver.close()
 
 # close() for tab, quit() for entire browser
+
