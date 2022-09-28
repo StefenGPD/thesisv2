@@ -179,13 +179,13 @@ def iterate_and_compare(csv_name='Selenium Testing/Extracted.csv'):
 
             #print this if u want
             #print(similarity)
+            print(index)
            
         #assign a cluster to model image
         cluster_list[no_cluster_index] = (f"Cluster: {cluster_count}", "distinct image") 
-        cluster_list[no_cluster_index] = (f"Cluster: {cluster_count}", "distinct image")
         #Save the image
         
-        img1save.save(f"Selenium Testing/Clustered Images/Cluster {cluster_count} - {index + 1}.jpg")
+        img1save.save(f"Selenium Testing/Clustered Images/Cluster {cluster_count} - {no_cluster_index + 1}.jpg")
         cluster_count = cluster_count + 1
     
     df['Cluster_Similarity'] = cluster_list
