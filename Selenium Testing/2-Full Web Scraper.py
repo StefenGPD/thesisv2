@@ -152,6 +152,8 @@ def iterate_and_compare(csv_name='Selenium Testing/Extracted.csv'):
 
         #conversion part to ensure numpy array (image values) is in rgb format, not cmyk 
         img1 = Image.open(f"Selenium Testing/Images/{no_cluster_index + 1}.jpg").convert("RGB")
+        #Stefen: added img1save to save the image later on
+        img1save = Image.open(f"Selenium Testing/Images/{no_cluster_index + 1}.jpg").convert("RGB")
         img1 = np.array(img1)
         img1 = img1[:, :, ::-1].copy()
         img1 = cv2.resize(img1, (400,400))
@@ -163,6 +165,8 @@ def iterate_and_compare(csv_name='Selenium Testing/Extracted.csv'):
             if cluster_list[index] != -1:
                 continue
             img2 = Image.open(f"Selenium Testing/Images/{index + 1}.jpg").convert("RGB")
+            #Stefen: added img2save to save the image later on
+            img2save = Image.open(f"Selenium Testing/Images/{index + 1}.jpg").convert("RGB")
             img2 = np.array(img2)
             img2 = img2[:, :, ::-1].copy()
             img2 = cv2.resize(img2, (400,400))
@@ -170,11 +174,18 @@ def iterate_and_compare(csv_name='Selenium Testing/Extracted.csv'):
             if similarity >= threshold:
                 cluster_list[index] = (f"Cluster: {cluster_count}", similarity)
 
+                # This part saves the image
+                img2save.save(f"Selenium Testing/Clustered Images/Cluster {cluster_count} - {index + 1}.jpg")
+
             #print this if u want
             #print(similarity)
            
         #assign a cluster to model image
         cluster_list[no_cluster_index] = (f"Cluster: {cluster_count}", "distinct image") 
+        cluster_list[no_cluster_index] = (f"Cluster: {cluster_count}", "distinct image")
+        #Save the image
+        
+        img1save.save(f"Selenium Testing/Clustered Images/Cluster {cluster_count} - {index + 1}.jpg")
         cluster_count = cluster_count + 1
     
     df['Cluster_Similarity'] = cluster_list
