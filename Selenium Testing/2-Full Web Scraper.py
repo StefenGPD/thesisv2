@@ -13,7 +13,7 @@ import numpy as np
 # Accepts a string, the url
 # Writes into Extracted.csv
 def downloadPage(urlname, pagecheck):
-    PATH = "Selenium Testing/chromedriver.exe"
+    PATH = "chromedriver.exe"
 
     #Because executable path is deprecated, use Service instead
     driver_service = Service(executable_path=PATH)
@@ -70,9 +70,9 @@ def downloadPage(urlname, pagecheck):
         compiled_list = [name_list, price_list, url_list, img_list]
         df = pd.DataFrame(compiled_list).transpose()
         df.columns = column_names
-        df.to_csv('Selenium Testing/Extracted.csv', index=False)
+        df.to_csv('Extracted.csv', index=False)
     else:
-        df1 = pd.read_csv('Selenium Testing/Extracted.csv')
+        df1 = pd.read_csv('Extracted.csv')
         df1.columns = column_names
         
         compiled_list = [name_list, price_list, url_list, img_list]
@@ -80,7 +80,7 @@ def downloadPage(urlname, pagecheck):
         df2.columns = column_names
 
         df = pd.concat([df1, df2], ignore_index=True)
-        df.to_csv('Selenium Testing/Extracted.csv', index=False)
+        df.to_csv('Extracted.csv', index=False)
 
     # Ensures that the browser is quit
     driver.quit()
@@ -119,7 +119,7 @@ def save_image(link, filename):
 
 # Downloads all the images in a csv file
 # If csv name is different, put a parameter
-def download_images(csv_name='Selenium Testing/Extracted.csv'):
+def download_images(csv_name='Extracted.csv'):
     # Read the csv file
     df = pd.read_csv(csv_name)
 
@@ -127,18 +127,18 @@ def download_images(csv_name='Selenium Testing/Extracted.csv'):
         link = row['Img URL']
         filename = row['itemId']
 
-        filepath = f"Selenium Testing/Images/{filename}.jpg"
+        filepath = f"Images/{filename}.jpg"
 
         save_image(link, filepath)
 
 # Provides itemId to the entire csv file
-def giveItemId(csv_name='Selenium Testing/Extracted.csv'):
+def giveItemId(csv_name='Extracted.csv'):
     df = pd.read_csv(csv_name)
     df['itemId'] = df.index + 1
     df.to_csv(csv_name)
 
 
-def iterate_and_compare(csv_name='Selenium Testing/Extracted.csv'):
+def iterate_and_compare(csv_name='Extracted.csv'):
     df = pd.read_csv(csv_name)
     num_obj = len(df.index)
     threshold = 0.70
@@ -151,9 +151,9 @@ def iterate_and_compare(csv_name='Selenium Testing/Extracted.csv'):
         no_cluster_index = cluster_list.index(-1)
 
         #conversion part to ensure numpy array (image values) is in rgb format, not cmyk 
-        img1 = Image.open(f"Selenium Testing/Images/{no_cluster_index + 1}.jpg").convert("RGB")
+        img1 = Image.open(f"Images/{no_cluster_index + 1}.jpg").convert("RGB")
         #Stefen: added img1save to save the image later on
-        img1save = Image.open(f"Selenium Testing/Images/{no_cluster_index + 1}.jpg").convert("RGB")
+        img1save = Image.open(f"Images/{no_cluster_index + 1}.jpg").convert("RGB")
         img1 = np.array(img1)
         img1 = img1[:, :, ::-1].copy()
         img1 = cv2.resize(img1, (400,400))
@@ -164,9 +164,9 @@ def iterate_and_compare(csv_name='Selenium Testing/Extracted.csv'):
         for index in range(no_cluster_index + 1, num_obj):
             if cluster_list[index] != -1:
                 continue
-            img2 = Image.open(f"Selenium Testing/Images/{index + 1}.jpg").convert("RGB")
+            img2 = Image.open(f"Images/{index + 1}.jpg").convert("RGB")
             #Stefen: added img2save to save the image later on
-            img2save = Image.open(f"Selenium Testing/Images/{index + 1}.jpg").convert("RGB")
+            img2save = Image.open(f"Images/{index + 1}.jpg").convert("RGB")
             img2 = np.array(img2)
             img2 = img2[:, :, ::-1].copy()
             img2 = cv2.resize(img2, (400,400))
@@ -175,7 +175,7 @@ def iterate_and_compare(csv_name='Selenium Testing/Extracted.csv'):
                 cluster_list[index] = (f"Cluster: {cluster_count}", similarity)
 
                 # This part saves the image
-                img2save.save(f"Selenium Testing/Clustered Images/Cluster {cluster_count} - {index + 1}.jpg")
+                img2save.save(f"Clustered Images/Cluster {cluster_count} - {index + 1}.jpg")
 
             #print this if u want
             #print(similarity)
@@ -185,7 +185,7 @@ def iterate_and_compare(csv_name='Selenium Testing/Extracted.csv'):
         cluster_list[no_cluster_index] = (f"Cluster: {cluster_count}", "distinct image") 
         #Save the image
         
-        img1save.save(f"Selenium Testing/Clustered Images/Cluster {cluster_count} - {no_cluster_index + 1}.jpg")
+        img1save.save(f"Clustered Images/Cluster {cluster_count} - {no_cluster_index + 1}.jpg")
         cluster_count = cluster_count + 1
     
     df['Cluster_Similarity'] = cluster_list
