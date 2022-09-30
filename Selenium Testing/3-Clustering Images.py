@@ -171,7 +171,7 @@ def compare_psnr(csv_name='Extracted.csv'):
     df.to_csv("Extracted PSNR.csv", index = False)
 
 def main():
-    compare_psnr()
+    # compare_psnr()
     compare_ssim()
 
 main()
