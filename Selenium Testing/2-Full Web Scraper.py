@@ -206,7 +206,7 @@ def main():
     
     giveItemId()
     download_images()
-    iterate_and_compare()
+    
 
 
 main()
