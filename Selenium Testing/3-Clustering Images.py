@@ -128,8 +128,6 @@ def compare_ssim(csv_name='Extracted.csv', threshold=0.70):
 
 
 def main():
-    compare_ssim(threshold=0.5)
-    compare_ssim(threshold=0.7)
     compare_ssim(threshold=0.9)
 
 main()

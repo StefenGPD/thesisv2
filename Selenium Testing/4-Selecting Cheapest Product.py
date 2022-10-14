@@ -2,7 +2,7 @@ import pandas as pd
 
 # Note: when saving to csv, and then reading, all datatypes get converted to STRING
 # This long ass read_csv converts columns into appropriate datatypes
-df = pd.read_csv('Extracted SSIM.csv', converters={'Price': pd.eval, 'itemId': pd.eval, 'Cluster_Similarity': pd.eval})
+df = pd.read_csv("Extracted SSIM - Threshold 0.9.csv", converters={'Price': pd.eval, 'itemId': pd.eval, 'Cluster_Similarity': pd.eval})
 
 # List comprehension: access the column name (series), what index (value), and the first item of the value
 cluster_number = [df['Cluster_Similarity'][index][0] for index in df.index]
