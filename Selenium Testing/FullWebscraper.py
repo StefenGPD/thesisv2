@@ -407,6 +407,18 @@ def main_search(self, pages_number):
     download_images()
     iterate_and_compare(self)
 
+def createDirectories():
+    dirlist = ['Distinct Images', 'Images']
+    
+    for directory in dirlist:
+        try:
+            os.mkdir(directory)
+        except:
+            print(f"{directory} already exists, removing and recreating the directory.")
+            shutil.rmtree(directory)
+            os.mkdir(directory)
+
+
 # Main
 app = QApplication(sys.argv)
 welcome = WelcomeScreen()
@@ -419,6 +431,10 @@ widget.addWidget(main)
 widget.setFixedHeight(900)
 widget.setFixedWidth(1000)
 widget.show()
+
+# Handles directories to refresh the content
+createDirectories()
+
 
 try:
     sys.exit(app.exec())
